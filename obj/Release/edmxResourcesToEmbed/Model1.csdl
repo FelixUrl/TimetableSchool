@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SchoolModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Audition">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Timetable" Relationship="Self.FK_Timetable_Audition" FromRole="Audition" ToRole="Timetable" />
+  </EntityType>
+  <EntityType Name="Discipline">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Timetable" Relationship="Self.FK_Timetable_Discipline" FromRole="Discipline" ToRole="Timetable" />
+  </EntityType>
+  <EntityType Name="Groups">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Timetable" Relationship="Self.FK_Timetable_Groups" FromRole="Groups" ToRole="Timetable" />
+  </EntityType>
+  <EntityType Name="Lesson">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Number" Type="Int32" />
+    <Property Name="TimeStart" Type="Time" Precision="7" />
+    <Property Name="TimeEnd" Type="Time" Precision="7" />
+    <NavigationProperty Name="Timetable" Relationship="Self.FK_Timetable_Lesson" FromRole="Lesson" ToRole="Timetable" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Teacher">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Fullname" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Timetable" Relationship="Self.FK_Timetable_Teacher" FromRole="Teacher" ToRole="Timetable" />
+  </EntityType>
+  <EntityType Name="Timetable">
+    <Key>
+      <PropertyRef Name="ID_Timetable" />
+    </Key>
+    <Property Name="ID_Timetable" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Teacher" Type="Int32" />
+    <Property Name="Lesson" Type="Int32" />
+    <Property Name="Groups" Type="Int32" />
+    <Property Name="Discipline" Type="Int32" />
+    <Property Name="TypeOfLesson" Type="Int32" />
+    <Property Name="Audition" Type="Int32" />
+    <NavigationProperty Name="Audition1" Relationship="Self.FK_Timetable_Audition" FromRole="Timetable" ToRole="Audition" />
+    <NavigationProperty Name="Discipline1" Relationship="Self.FK_Timetable_Discipline" FromRole="Timetable" ToRole="Discipline" />
+    <NavigationProperty Name="Groups1" Relationship="Self.FK_Timetable_Groups" FromRole="Timetable" ToRole="Groups" />
+    <NavigationProperty Name="Lesson1" Relationship="Self.FK_Timetable_Lesson" FromRole="Timetable" ToRole="Lesson" />
+    <NavigationProperty Name="Teacher1" Relationship="Self.FK_Timetable_Teacher" FromRole="Timetable" ToRole="Teacher" />
+    <NavigationProperty Name="TypeOfLesson1" Relationship="Self.FK_Timetable_TypeOfLesson" FromRole="Timetable" ToRole="TypeOfLesson" />
+  </EntityType>
+  <EntityType Name="TypeOfLesson">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Timetable" Relationship="Self.FK_Timetable_TypeOfLesson" FromRole="TypeOfLesson" ToRole="Timetable" />
+  </EntityType>
+  <Association Name="FK_Timetable_Audition">
+    <End Role="Audition" Type="Self.Audition" Multiplicity="0..1" />
+    <End Role="Timetable" Type="Self.Timetable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Audition">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Timetable">
+        <PropertyRef Name="Audition" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Timetable_Discipline">
+    <End Role="Discipline" Type="Self.Discipline" Multiplicity="0..1" />
+    <End Role="Timetable" Type="Self.Timetable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Discipline">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Timetable">
+        <PropertyRef Name="Discipline" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Timetable_Groups">
+    <End Role="Groups" Type="Self.Groups" Multiplicity="0..1" />
+    <End Role="Timetable" Type="Self.Timetable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Groups">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Timetable">
+        <PropertyRef Name="Groups" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Timetable_Lesson">
+    <End Role="Lesson" Type="Self.Lesson" Multiplicity="0..1" />
+    <End Role="Timetable" Type="Self.Timetable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lesson">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Timetable">
+        <PropertyRef Name="Lesson" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Timetable_Teacher">
+    <End Role="Teacher" Type="Self.Teacher" Multiplicity="0..1" />
+    <End Role="Timetable" Type="Self.Timetable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Teacher">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Timetable">
+        <PropertyRef Name="Teacher" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Timetable_TypeOfLesson">
+    <End Role="TypeOfLesson" Type="Self.TypeOfLesson" Multiplicity="0..1" />
+    <End Role="Timetable" Type="Self.Timetable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TypeOfLesson">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Timetable">
+        <PropertyRef Name="TypeOfLesson" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SchoolEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Audition" EntityType="Self.Audition" />
+    <EntitySet Name="Discipline" EntityType="Self.Discipline" />
+    <EntitySet Name="Groups" EntityType="Self.Groups" />
+    <EntitySet Name="Lesson" EntityType="Self.Lesson" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Teacher" EntityType="Self.Teacher" />
+    <EntitySet Name="Timetable" EntityType="Self.Timetable" />
+    <EntitySet Name="TypeOfLesson" EntityType="Self.TypeOfLesson" />
+    <AssociationSet Name="FK_Timetable_Audition" Association="Self.FK_Timetable_Audition">
+      <End Role="Audition" EntitySet="Audition" />
+      <End Role="Timetable" EntitySet="Timetable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Timetable_Discipline" Association="Self.FK_Timetable_Discipline">
+      <End Role="Discipline" EntitySet="Discipline" />
+      <End Role="Timetable" EntitySet="Timetable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Timetable_Groups" Association="Self.FK_Timetable_Groups">
+      <End Role="Groups" EntitySet="Groups" />
+      <End Role="Timetable" EntitySet="Timetable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Timetable_Lesson" Association="Self.FK_Timetable_Lesson">
+      <End Role="Lesson" EntitySet="Lesson" />
+      <End Role="Timetable" EntitySet="Timetable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Timetable_Teacher" Association="Self.FK_Timetable_Teacher">
+      <End Role="Teacher" EntitySet="Teacher" />
+      <End Role="Timetable" EntitySet="Timetable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Timetable_TypeOfLesson" Association="Self.FK_Timetable_TypeOfLesson">
+      <End Role="TypeOfLesson" EntitySet="TypeOfLesson" />
+      <End Role="Timetable" EntitySet="Timetable" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
